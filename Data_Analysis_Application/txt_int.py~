@@ -1,0 +1,29 @@
+import numpy as np
+import datetime
+
+# date field conversion function
+dateconv = lambda s: datetime.strptime(s, '%Y-%M-%D %H:%M:%S:.%f')
+
+col_names = ["Timestamp", "val1", "val2", "val3", "val4"]
+dtypes = ["object", "float", "float", "float", "float"]
+col_names1= ["Timestamp", "val1", "val2", "val3"]
+dtypes1= ["object", "object", "object", "object"]
+
+mydata = np.genfromtxt("hello.txt",skip_header=8,delimiter='',unpack=None, names=col_names,usecols=(2,3,4),dtype=dtypes, converters={"Time": dateconv})
+myparam= np.genfromtxt("hello.txt",skip_header=3,skip_footer=3,delimiter='', names=col_names1,dtype=dtypes1, converters={"Time": dateconv})
+voltage=mydata['val2']
+current=mydata['val3']
+Temprature=mydata['val4']
+print(voltage)
+vol=list(voltage)
+print(vol)
+cur=list(current)
+temp=list(Temprature)
+param=list(myparam[0])
+print(param)
+maxvol=max(vol)
+maxcur=max(cur)
+maxtemp=max(temp)
+print(maxvol)
+print(maxcur)
+print(maxtemp)

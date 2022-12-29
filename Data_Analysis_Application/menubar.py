@@ -1,0 +1,83 @@
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+import sys
+import numpy as np
+import sys
+import txt_int as tix
+class Window(QWidget):
+    def __init__(self):
+        QWidget.__init__(self)
+        layout = QGridLayout()
+        self.setLayout(layout)
+        """ menu bar and all sub_bars """
+        menubar = QMenuBar()
+        layout.addWidget(menubar, 0, 0)
+        actionFile = menubar.addMenu("load file")
+        sel=actionFile.addAction("file selection")
+        sel.triggered.connect(self.on_click)
+
+        plo=menubar.addMenu("Plot individual")
+        bike=plo.addAction(str(tix.myparam[1]))
+        bike.triggered.connect(self.onclick_IM)
+        car=plo.addAction(str(tix.myparam[2]))
+        car.triggered.connect(self.onclick_IIM)
+        mouse=plo.addAction(str(tix.myparam[3]))
+        mouse.triggered.connect(self.onclick_IIIM)
+        
+        plo=menubar.addMenu("Plot Multiple Parameter")
+        car=plo.addAction("Plot Param")
+        car.triggered.connect(self.onclick_VM)
+
+        
+        
+        PS=menubar.addMenu("Param Subplot")
+        dog=PS.addAction("subplots")
+        dog.triggered.connect(self.onclick_PS)
+        rep=menubar.addMenu("Report")
+        see=rep.addAction("subplots")
+        see.triggered.connect(self.onclick_rep)
+
+        self.contents = QTextEdit()
+        layout.addWidget(self.contents)
+        self.setLayout(layout)
+        self.setWindowTitle("File Dialog demo")
+
+        plot=menubar.addMenu("Quit")
+        carr=plot.addAction("exit")
+        carr.triggered.connect(self.onclick_VmM)
+        
+        """ this function is for txt file dispay and Paramater display """
+    def on_click(self):
+        dlg=QFileDialog()
+        dlg.setFileMode(QFileDialog.AnyFile)
+        dlg.setNameFilters(["TextFiles (*.txt)"])
+
+        if dlg.exec_():
+            global filenames
+            filenames=dlg.selectedFiles()
+            f =open(filenames[0],'r')
+            
+            with f:
+                data=f.read()
+                self.contents.setText(data)
+    def onclick_VM(self):
+        import lets_see
+    def onclick_PS(self):
+        import subplots
+    def onclick_rep(self):
+        import report
+    def onclick_IM(self):
+        import param1
+    def onclick_IIM(self):
+        import param2
+    def onclick_IIIM(self):
+        import param3
+    def onclick_VmM(self):
+        sys.exit()
+
+app = QApplication(sys.argv)
+screen = Window()
+screen.show()
+sys.exit(app.exec_())
+
